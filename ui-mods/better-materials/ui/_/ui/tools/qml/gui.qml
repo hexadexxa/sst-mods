@@ -14,9 +14,22 @@ Rectangle {
 	property var tool: []
 	property var activeToolUid: 0
 	property var dragTool  : null
+	property int maxMaterialColumns: 10
 	
 	function reset() {
 		activeTool = null
+	}
+	
+	function calculateMaxColumns() {
+		let maxCount = 0;
+		for (let i = 0; i < subtoolView.model.count; i++) {
+			let category = subtoolView.model.get(i);
+			if (category.subtools && category.subtools.count) {
+				maxCount = Math.max(maxCount, category.subtools.count);
+			}
+		}
+		let cols = Math.floor(maxCount / 5) * 5;
+		return Math.max(5, cols);
 	}
 
 /*
@@ -66,6 +79,8 @@ Rectangle {
 					subtoolView.model = item.subtools;
 				}
 			};
+			
+			maxMaterialColumns = calculateMaxColumns();
 		
 	}
 	
@@ -320,7 +335,7 @@ Rectangle {
 
 		Grid {
 			//columns: 8
-			columns: qTools.activeToolUid == 'material' ? 8 : 3
+			columns: qTools.activeToolUid == 'material' ? Math.max(5, qTools.maxMaterialColumns) : 3
 			spacing: 5
 			
 			// anchors.fill: parent
@@ -346,6 +361,8 @@ Rectangle {
 					Rectangle {
 						width: qTools.activeToolUid == 'material' ? 48 : 48
 						height: qTools.activeToolUid == 'material' ? 48 : 48
+						
+						anchors.horizontalCenter: parent.horizontalCenter
 						
 						// anchors.horizontalCenter: Drag.active ? null : parent.horizontalCenter
 						// anchors.horizontalCenter: Drag.active ? '' : parent.horizontalCenter
@@ -458,6 +475,9 @@ Button {
 							
 							
 							onClicked : (mouse) => {
+								if (model.title === "clone material" && mouse.button === Qt.RightButton) {
+									return;
+								}
 								if ( !qTools.dragTool ){
 									console.info('TOOL CLICK!', model.title, model.uid, qTools.activeToolUid );
 									
@@ -490,7 +510,7 @@ Button {
 					
 					Text {
 						id : materialLabel
-						text : model.title + (model.title !== "clone material" && model.uid !== undefined ? " (" + model.uid + ")" : "")
+						text : model.title + (qTools.activeToolUid == 'material' && model.title !== "clone material" && model.uid !== undefined ? " (" + model.uid + ")" : "")
 						
 						width: parent.width
 						horizontalAlignment: Text.AlignHCenter
@@ -499,7 +519,7 @@ Button {
 						anchors.horizontalCenter: parent.horizontalCenter
 						
 						font.pixelSize: 9
-						font.bold: model.active
+						font.italic: model.active
 						
 						color: model.active ? "#33AAff" : qmlStyles.button.color
 						style: Text.Outline
