@@ -2,6 +2,6 @@
 *v0.9.0*
 
 ## To install ui-mods:
-* Download the mods you want
+* Download the mods you want, or download them all by clicking Code then Download ZIP.
 * For each mod, drop the **first** folder named "ui", containing a folder named "_", into the games directory, the same one that contains "sst.exe"
 * If asked to replace files, accept.
