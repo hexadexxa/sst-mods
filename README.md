@@ -1,5 +1,5 @@
 # A collection of my mods for the game Space Simulation Toolkit.
-*v0.9.0*
+*v0.9.x*
 
 ## To install ui-mods:
 * Download the mods you want, or download them all by clicking Code then Download ZIP.
