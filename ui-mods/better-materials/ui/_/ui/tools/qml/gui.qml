@@ -14,22 +14,9 @@ Rectangle {
 	property var tool: []
 	property var activeToolUid: 0
 	property var dragTool  : null
-	property int maxMaterialColumns: 10
 	
 	function reset() {
 		activeTool = null
-	}
-	
-	function calculateMaxColumns() {
-		let maxCount = 0;
-		for (let i = 0; i < subtoolView.model.count; i++) {
-			let category = subtoolView.model.get(i);
-			if (category.subtools && category.subtools.count) {
-				maxCount = Math.max(maxCount, category.subtools.count);
-			}
-		}
-		let cols = Math.floor(maxCount / 5) * 5;
-		return Math.max(5, cols);
 	}
 
 /*
@@ -79,9 +66,7 @@ Rectangle {
 					subtoolView.model = item.subtools;
 				}
 			};
-			
-			maxMaterialColumns = calculateMaxColumns();
-		
+					
 	}
 	
 	function clear(data) {
@@ -335,7 +320,7 @@ Rectangle {
 
 		Grid {
 			//columns: 8
-			columns: qTools.activeToolUid == 'material' ? Math.max(5, qTools.maxMaterialColumns) : 3
+			columns: qTools.activeToolUid == 'material' ? Math.min(8, Math.max(4, subtoolView2.model.count)) : 3
 			spacing: 5
 			
 			// anchors.fill: parent
@@ -517,15 +502,15 @@ Button {
 						wrapMode: Text.Wrap
 						
 						anchors.horizontalCenter: parent.horizontalCenter
+						anchors.topMargin: -4
 						
-						font.pixelSize: 9
+						font.pixelSize: 8
 						font.italic: model.active
 						
 						color: model.active ? "#33AAff" : qmlStyles.button.color
 						style: Text.Outline
 						styleColor: "#000000"
 					}
-					
 					
 				}
 				
