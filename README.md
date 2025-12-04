@@ -18,6 +18,4 @@
 * Alternatively, edit "imageFiles" in ui/_/ui/qml/ui.qml
 
 ## To-do list
-* Make the slideshow shuffle work actually
-* Make images persist nicer
 * For better-tools, try using an array instead of 32 individual ints
