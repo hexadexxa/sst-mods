@@ -20,39 +20,26 @@ Rectangle {
 	property bool showNames: false
 	property bool showIds: false
 	
-	// arrays dont work nice so we get to manually do this instead
-	property int cat0page: 0
-	property int cat1page: 0
-	property int cat2page: 0
-	property int cat3page: 0
-	property int cat4page: 0
-	property int cat5page: 0
-	property int cat6page: 0
-	property int cat7page: 0
-	property int cat8page: 0
-	property int cat9page: 0
-	property int cat10page: 0
-	property int cat11page: 0
-	property int cat12page: 0
-	property int cat13page: 0
-	property int cat14page: 0
-	property int cat15page: 0
-	property int cat16page: 0
-	property int cat17page: 0
-	property int cat18page: 0
-	property int cat19page: 0
-	property int cat20page: 0
-	property int cat21page: 0
-	property int cat22page: 0
-	property int cat23page: 0
-	property int cat24page: 0
-	property int cat25page: 0
-	property int cat26page: 0
-	property int cat27page: 0
-	property int cat28page: 0
-	property int cat29page: 0
-	property int cat30page: 0
-	property int cat31page: 0
+	// table!
+	// rest in peace the evil super long switch...
+	property var categoryPages: ({})
+	
+	function getCatPage(catIndex) {
+		return categoryPages[catIndex] !== undefined ? categoryPages[catIndex] : 0;
+	}
+	
+	function setCatPage(catIndex, value) {
+		var temp = {};
+		for (var key in categoryPages) {
+			temp[key] = categoryPages[key];
+		}
+		temp[catIndex] = value;
+		categoryPages = temp;
+	}
+	
+	function resetAllPages() {
+		categoryPages = {};
+	}
 	
 	function reset() {
 		activeToolUid = 0;
@@ -205,16 +192,7 @@ Rectangle {
 								qTools.activeToolUid = model.uid;
 								qTools.dragTool   = model.drag;
 								
-								// reset pages on tool switch. all 32. realistically who will have 32 categories why did i do this
-								qTools.cat0page = 0; qTools.cat1page = 0; qTools.cat2page = 0; qTools.cat3page = 0
-								qTools.cat4page = 0; qTools.cat5page = 0; qTools.cat6page = 0; qTools.cat7page = 0
-								qTools.cat8page = 0; qTools.cat9page = 0; qTools.cat10page = 0; qTools.cat11page = 0
-								qTools.cat12page = 0; qTools.cat13page = 0; qTools.cat14page = 0; qTools.cat15page = 0
-								qTools.cat16page = 0; qTools.cat17page = 0; qTools.cat18page = 0; qTools.cat19page = 0
-								qTools.cat20page = 0; qTools.cat21page = 0; qTools.cat22page = 0; qTools.cat23page = 0
-								qTools.cat24page = 0; qTools.cat25page = 0; qTools.cat26page = 0; qTools.cat27page = 0
-								qTools.cat28page = 0; qTools.cat29page = 0; qTools.cat30page = 0; qTools.cat31page = 0
-								
+								qTools.resetAllPages();
 								
 								console.info('TOOL CLICK!', model.title );
 								
@@ -414,126 +392,21 @@ Rectangle {
 					anchors.horizontalCenter: parent.horizontalCenter
 					
 					property int catIndex: index
-					
-					// the evil really long switch
-					property int currentPage: {
-						switch (catIndex) {
-							case 0: return qTools.cat0page
-							case 1: return qTools.cat1page
-							case 2: return qTools.cat2page
-							case 3: return qTools.cat3page
-							case 4: return qTools.cat4page
-							case 5: return qTools.cat5page
-							case 6: return qTools.cat6page
-							case 7: return qTools.cat7page
-							case 8: return qTools.cat8page
-							case 9: return qTools.cat9page
-							case 10: return qTools.cat10page
-							case 11: return qTools.cat11page
-							case 12: return qTools.cat12page
-							case 13: return qTools.cat13page
-							case 14: return qTools.cat14page
-							case 15: return qTools.cat15page
-							case 16: return qTools.cat16page
-							case 17: return qTools.cat17page
-							case 18: return qTools.cat18page
-							case 19: return qTools.cat19page
-							case 20: return qTools.cat20page
-							case 21: return qTools.cat21page
-							case 22: return qTools.cat22page
-							case 23: return qTools.cat23page
-							case 24: return qTools.cat24page
-							case 25: return qTools.cat25page
-							case 26: return qTools.cat26page
-							case 27: return qTools.cat27page
-							case 28: return qTools.cat28page
-							case 29: return qTools.cat29page
-							case 30: return qTools.cat30page
-							default: return qTools.cat31page
-						}
-					}
+					property int currentPage: qTools.getCatPage(catIndex)
 					
 					function prevPage() {
 						if (currentPage <= 0) return;
-						switch (catIndex) {
-							case 0: qTools.cat0page--; break
-							case 1: qTools.cat1page--; break
-							case 2: qTools.cat2page--; break
-							case 3: qTools.cat3page--; break
-							case 4: qTools.cat4page--; break
-							case 5: qTools.cat5page--; break
-							case 6: qTools.cat6page--; break
-							case 7: qTools.cat7page--; break
-							case 8: qTools.cat8page--; break
-							case 9: qTools.cat9page--; break
-							case 10: qTools.cat10page--; break
-							case 11: qTools.cat11page--; break
-							case 12: qTools.cat12page--; break
-							case 13: qTools.cat13page--; break
-							case 14: qTools.cat14page--; break
-							case 15: qTools.cat15page--; break
-							case 16: qTools.cat16page--; break
-							case 17: qTools.cat17page--; break
-							case 18: qTools.cat18page--; break
-							case 19: qTools.cat19page--; break
-							case 20: qTools.cat20page--; break
-							case 21: qTools.cat21page--; break
-							case 22: qTools.cat22page--; break
-							case 23: qTools.cat23page--; break
-							case 24: qTools.cat24page--; break
-							case 25: qTools.cat25page--; break
-							case 26: qTools.cat26page--; break
-							case 27: qTools.cat27page--; break
-							case 28: qTools.cat28page--; break
-							case 29: qTools.cat29page--; break
-							case 30: qTools.cat30page--; break
-							default: qTools.cat31page--
-						}
+						qTools.setCatPage(catIndex, currentPage - 1);
 					}
 					
 					function nextPage() {
 						if (currentPage >= pages - 1) return;
-						switch (catIndex) {
-							case 0: qTools.cat0page++; break
-							case 1: qTools.cat1page++; break
-							case 2: qTools.cat2page++; break
-							case 3: qTools.cat3page++; break
-							case 4: qTools.cat4page++; break
-							case 5: qTools.cat5page++; break
-							case 6: qTools.cat6page++; break
-							case 7: qTools.cat7page++; break
-							case 8: qTools.cat8page++; break
-							case 9: qTools.cat9page++; break
-							case 10: qTools.cat10page++; break
-							case 11: qTools.cat11page++; break
-							case 12: qTools.cat12page++; break
-							case 13: qTools.cat13page++; break
-							case 14: qTools.cat14page++; break
-							case 15: qTools.cat15page++; break
-							case 16: qTools.cat16page++; break
-							case 17: qTools.cat17page++; break
-							case 18: qTools.cat18page++; break
-							case 19: qTools.cat19page++; break
-							case 20: qTools.cat20page++; break
-							case 21: qTools.cat21page++; break
-							case 22: qTools.cat22page++; break
-							case 23: qTools.cat23page++; break
-							case 24: qTools.cat24page++; break
-							case 25: qTools.cat25page++; break
-							case 26: qTools.cat26page++; break
-							case 27: qTools.cat27page++; break
-							case 28: qTools.cat28page++; break
-							case 29: qTools.cat29page++; break
-							case 30: qTools.cat30page++; break
-							default: qTools.cat31page++
-						}
+						qTools.setCatPage(catIndex, currentPage + 1);
 					}
 					
-					property int cols: qTools.activeToolUid == 'material' ? Math.min(8, Math.max(4, subtoolView2.model.count)) : 3
-					
 					property int itemCount: subtoolView2.model.count
-					// do we have an int for this? no? one, how did the user do this, two, they shouldnt all be weirdly linked 
-					property int perPage: catIndex > 31 ? itemCount : cols
+					property int cols: Math.min(8, Math.max(4, itemCount))
+					property int perPage: cols
 					property int pages: Math.max(1, Math.ceil(itemCount / perPage))
 					
 					// shrink when theres a lot
@@ -778,8 +651,7 @@ Button {
 									
 									let dist = Math.sqrt(dx*dx+dy*dy);
 									
-									// пока быстрый фикс - просто проверяем, что оттащил на достаточное расстояние
-									// mr sst, what does this mean?
+									// quick fix - just check if dragged far enough
 									if ( dist > 64 ){
 										var pos = parent.mapToItem(someRoot, 0, 0);
 										

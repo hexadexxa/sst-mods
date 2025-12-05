@@ -13,13 +13,22 @@ Item {
     property bool demo_mode: false
     // активное в настоящий момент окно меню, управляется из menu/qml/MenuPanel.qml 	
     property var menuPanel: null
+
+
+
+    // time between images in seconds (can be 5, 10, 7.5, etc)
+    property real slideshowSpeed: 10
+    // fade transition time in seconds (can be 1, 1.5, 2, etc)	
+    property real fadeDuration: 1.5
     
+
+
     // slideshow
 	Item {
 		id: bgSlideshow
 		anchors.fill: parent
 		z: -1
-		visible: menuPanel && menuPanel.visible
+		visible: menuPanel && menuPanel.visible && !someRoot.state['qTools']
 		
 		property var imageFiles: [
 			"iterator by noah.png",
@@ -29,8 +38,6 @@ Item {
 		
 		property var images: []
 		property int currentIndex: 0
-		property int displayInterval: 10
-		property int fadeDuration: 1500
 		property int failCount: 0
 		property bool initialized: false
 		property string lastShownImage: ""
@@ -63,7 +70,7 @@ Item {
 			fillMode: Image.PreserveAspectFit
 			opacity: 0
 			z: 0
-			Behavior on opacity { NumberAnimation { duration: bgSlideshow.fadeDuration; easing.type: Easing.InOutQuad } }
+			Behavior on opacity { NumberAnimation { duration: fadeDuration * 1000; easing.type: Easing.InOutQuad } }
 			onStatusChanged: {
 				if (status === Image.Error) {
 					console.log("slideshow error:", source);
@@ -82,7 +89,7 @@ Item {
 			fillMode: Image.PreserveAspectFit
 			opacity: 0
 			z: 1
-			Behavior on opacity { NumberAnimation { duration: bgSlideshow.fadeDuration; easing.type: Easing.InOutQuad } }
+			Behavior on opacity { NumberAnimation { duration: fadeDuration * 1000; easing.type: Easing.InOutQuad } }
 			onStatusChanged: {
 				if (status === Image.Error) {
 					console.log("slideshow error:", source);
@@ -93,7 +100,7 @@ Item {
 		
 		Timer {
 			id: cycleTimer
-			interval: bgSlideshow.displayInterval * 1000
+			interval: slideshowSpeed * 1000
 			running: bgSlideshow.images.length > 1 && bgSlideshow.visible && bgSlideshow.initialized
 			repeat: true
 			onTriggered: {
@@ -132,8 +139,6 @@ Item {
 				}
 				return basePath + img;
 			});
-			
-			console.log("Mapped images:", JSON.stringify(tempImages));
 			
 			if (tempImages.length === 0) {
 				console.log("slideshow failed: no images in list");
