@@ -426,7 +426,7 @@ Rectangle {
 						for ( let x=0;x<subtoolView2.model.count;x++ ){
 							let item = subtoolView2.model.get(x);
 							let labelTitle = qTools.showNames ? (item.title.length > 14 ? item.title.substring(0, 14) + "..." : item.title) : "";
-							let labelUid = (qTools.showIds && qTools.activeToolUid === 'material' && item.uid !== undefined && item.title !== "clone material") ? item.uid.toString() : "";
+							let labelUid = (qTools.showIds && qTools.activeToolUid === 'material' && item.uid != null && item.title !== "clone material" && item.title !== "add reaction") ? item.uid.toString() : "";
 							let label = labelTitle && labelUid ? labelTitle + " (" + labelUid + ")" : labelTitle ? labelTitle : labelUid;
 							if (label.length > max) max = label.length;
 						};
@@ -555,7 +555,7 @@ Rectangle {
 					
 					// title + uid with brackets, or just uid without brackets
 					property string labelTitle: qTools.showNames ? (model.title.length > 14 ? model.title.substring(0, 14) + "..." : model.title) : ""
-					property string labelUid: (qTools.showIds && qTools.activeToolUid === 'material' && model.uid !== undefined && model.title !== "clone material") ? model.uid.toString() : ""
+					property string labelUid: (qTools.showIds && qTools.activeToolUid === 'material' && model.uid != null && model.title !== "clone material" && model.title !== "add reaction") ? model.uid.toString() : ""
 					property string labelText: {
 						if (labelTitle && labelUid) return labelTitle + " (" + labelUid + ")";
 						if (labelTitle) return labelTitle;
@@ -689,7 +689,7 @@ Button {
 							
 							
 							onClicked : (mouse) => {
-								if (model.title === "clone material" && mouse.button === Qt.RightButton) {
+								if ((model.title === "clone material" || model.title === "add reaction") && mouse.button === Qt.RightButton) {
 									return;
 								}
 								if ( !qTools.dragTool ){
