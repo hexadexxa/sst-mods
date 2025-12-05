@@ -16,6 +16,4 @@
 * Add or remove images here
 * When you want to update the list, run generate_list.py with python
 * Alternatively, edit "imageFiles" in ui/_/ui/qml/ui.qml
-
-## To-do list
-* For better-tools, try using an array instead of 32 individual ints
+* To edit the time between images and speed of the transition, edit the properties "slideshowSpeed" and "fadeDuration" in ui/_/ui/qml/ui.qml
