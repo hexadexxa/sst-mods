@@ -28,7 +28,9 @@ Item {
 		id: bgSlideshow
 		anchors.fill: parent
 		z: -1
-		visible: menuPanel && menuPanel.visible && !someRoot.state['qTools']
+		
+		property bool slideshowAllowed: false
+		visible: menuPanel && menuPanel.visible && slideshowAllowed
 		
 		property var imageFiles: [
 			"iterator by noah.png",
@@ -43,6 +45,27 @@ Item {
 		property string lastShownImage: ""
 		
 		objectName: "bgSlideshow"
+		
+		Timer {
+			id: visibilityCheckTimer
+			interval: 200
+			running: false
+			onTriggered: {
+				bgSlideshow.slideshowAllowed = !someRoot.state['qTools']
+			}
+		}
+		
+		Connections {
+			target: menuPanel
+			function onVisibleChanged() {
+				if (menuPanel.visible) {
+					bgSlideshow.slideshowAllowed = false
+					visibilityCheckTimer.restart()
+				} else {
+					bgSlideshow.slideshowAllowed = false
+				}
+			}
+		}
 		
 		function shuffleArray() {
 			var arr = images.slice();
