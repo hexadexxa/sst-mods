@@ -3,7 +3,8 @@
 
 ## Mods included:
 * better-tools: Adds pages to tools (like the materials tool), and allows you to enable/disable the showing of material names and ids.
-* menu-slideshow: Adds a slideshow to the main menu
+* menu-slideshow: Adds a slideshow to the main menu.
+* quick-reload: Adds a QUICK LOAD button to the menu, which loads the latest save.
 * right-click-to-edit: Adds right clicking to edit sliders and clickers ([+][text][-]) values directly.
 
 ## To install ui-mods:
