@@ -5,7 +5,7 @@
 
 ## Mods included:
 * better-tools: Adds pages to tools (like the materials tool), and allows you to enable/disable the showing of material names and ids.
-* quick-save-and-load: Adds QUICK SAVE and QUICK LOAD buttons to the menu, which creates a new or saves to the current save, and loads the latest save respectively.
+* quick-save-load: Adds QUICK SAVE and QUICK LOAD buttons to the menu, which creates a new or saves to the current save, and loads the latest save respectively.
 * right-click-to-edit: Adds right clicking to edit sliders and clickers ([+][text][-]) values directly.
 
 ## To install ui-mods:
